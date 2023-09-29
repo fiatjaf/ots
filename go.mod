@@ -5,13 +5,13 @@ go 1.21
 toolchain go1.21.0
 
 require (
-	github.com/fiatjaf/opentimestamps v0.1.0
+	github.com/btcsuite/btcd v0.23.4
+	github.com/nbd-wtf/opentimestamps v0.1.0
 	github.com/rs/zerolog v1.30.0
 	github.com/urfave/cli/v2 v2.25.7
 )
 
 require (
-	github.com/btcsuite/btcd v0.23.4 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.1.3 // indirect
 	github.com/btcsuite/btcd/btcutil v1.1.0 // indirect
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1 // indirect
@@ -30,4 +30,4 @@ require (
 	golang.org/x/sys v0.12.0 // indirect
 )
 
-replace github.com/fiatjaf/opentimestamps => /home/fiatjaf/comp/opentimestamps
+replace github.com/nbd-wtf/opentimestamps => /home/fiatjaf/comp/opentimestamps

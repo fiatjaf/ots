@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fiatjaf/opentimestamps"
+	"github.com/nbd-wtf/opentimestamps"
 	"github.com/urfave/cli/v2"
 )
 
 var upgrade = &cli.Command{
 	Name:        "upgrade",
-	Usage:       "",
 	Description: `reads an .ots file and tries to upgrade it against its specified pending calendars.`,
 	Flags:       []cli.Flag{},
 	ArgsUsage:   "[file]",
@@ -22,20 +21,33 @@ var upgrade = &cli.Command{
 			return err
 		}
 
-		// fmt.Println("file", hex.EncodeToString(b))
 		ts, err := opentimestamps.ReadFromFile(b)
 		if err != nil {
 			return err
 		}
 
 		for _, seq := range ts.GetPendingSequences() {
-			_, err := seq.Upgrade(context.Background(), ts.Digest)
+			tail, err := seq.Upgrade(context.Background(), ts.Digest)
 			if err != nil {
 				return err
 			}
 
-			fmt.Println("bingo")
+			newSeq := make(opentimestamps.Sequence, len(seq)+len(tail)-1)
+			copy(newSeq, seq[0:len(seq)-1])
+			copy(newSeq[len(seq)-1:], tail)
+
+			ts.Instructions = append(ts.Instructions, newSeq)
 		}
+
+		if err := os.Rename(file, file+".bak"); err != nil {
+			return err
+		}
+		fmt.Fprintf(os.Stderr, "renamed %s to %s\n", file, file+".bak")
+
+		if err := os.WriteFile(file, ts.SerializeToFile(), 0644); err != nil {
+			return err
+		}
+		fmt.Fprintf(os.Stderr, "saved new file %s\n", file)
 
 		return nil
 	},
