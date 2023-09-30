@@ -5,9 +5,11 @@ import (
 	"encoding/hex"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/nbd-wtf/opentimestamps"
 	"github.com/urfave/cli/v2"
+	"golang.org/x/exp/slices"
 )
 
 var stamp = &cli.Command{
@@ -49,24 +51,31 @@ var stamp = &cli.Command{
 			return fmt.Errorf("must either pass a file or a hash digest directly with --hash/-d")
 		}
 
+		if dir, err := os.ReadDir(filepath.Dir(filename)); err == nil {
+			if slices.ContainsFunc(dir, func(entry os.DirEntry) bool { return entry.Name() == filename+".ots" }) {
+				return fmt.Errorf("file '%s.ots' already exists", filename)
+			}
+		}
+
 		ts := opentimestamps.File{
-			Digest:       digest[:],
-			Instructions: make([]opentimestamps.Sequence, 0, 5),
+			Digest:    digest[:],
+			Sequences: make([]opentimestamps.Sequence, 0, 5),
 		}
 		for _, calendarUrl := range c.StringSlice("calendar") {
 			seq, err := opentimestamps.Stamp(c.Context, calendarUrl, digest)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "- failed to stamp %x at calendar %s: %w", digest, calendarUrl, err)
+				fmt.Fprintf(os.Stderr, "- failed to stamp %x at calendar %s: %s", digest, calendarUrl, err)
 				continue
 			}
-			ts.Instructions = append(ts.Instructions, seq)
+			ts.Sequences = append(ts.Sequences, seq)
+			fmt.Fprintf(os.Stderr, "- stamped digest %x at calendar %s\n", digest, calendarUrl)
 		}
 
-		if len(ts.Instructions) > 0 {
+		if len(ts.Sequences) > 0 {
 			if err := os.WriteFile(filename+".ots", ts.SerializeToFile(), 0644); err != nil {
 				return err
 			}
-			fmt.Println("saved file " + filename + ".ots")
+			fmt.Println("saved file '" + filename + ".ots'")
 			return nil
 		}
 

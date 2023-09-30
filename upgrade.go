@@ -36,7 +36,7 @@ var upgrade = &cli.Command{
 			copy(newSeq, seq[0:len(seq)-1])
 			copy(newSeq[len(seq)-1:], tail)
 
-			ts.Instructions = append(ts.Instructions, newSeq)
+			ts.Sequences = append(ts.Sequences, newSeq)
 		}
 
 		if err := os.Rename(file, file+".bak"); err != nil {
