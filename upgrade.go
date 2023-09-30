@@ -26,10 +26,12 @@ var upgrade = &cli.Command{
 			return err
 		}
 
+		upgraded := false
 		for _, seq := range ts.GetPendingSequences() {
 			tail, err := seq.Upgrade(context.Background(), ts.Digest)
 			if err != nil {
-				return err
+				fmt.Fprintf(os.Stderr, "- upgrade failed: %s\n", err)
+				continue
 			}
 
 			newSeq := make(opentimestamps.Sequence, len(seq)+len(tail)-1)
@@ -37,17 +39,24 @@ var upgrade = &cli.Command{
 			copy(newSeq[len(seq)-1:], tail)
 
 			ts.Sequences = append(ts.Sequences, newSeq)
+			fmt.Fprintf(os.Stderr, "- upgraded sequence on %s to bitcoin block %d\n",
+				seq[len(seq)-1].Attestation.CalendarServerURL, newSeq[len(newSeq)-1].Attestation.BitcoinBlockHeight)
+			upgraded = true
+		}
+
+		if !upgraded {
+			return fmt.Errorf("unable to upgrade '%s'", file)
 		}
 
 		if err := os.Rename(file, file+".bak"); err != nil {
 			return err
 		}
-		fmt.Fprintf(os.Stderr, "renamed %s to %s\n", file, file+".bak")
+		fmt.Fprintf(os.Stderr, "renamed '%s' to '%s'\n", file, file+".bak")
 
 		if err := os.WriteFile(file, ts.SerializeToFile(), 0644); err != nil {
 			return err
 		}
-		fmt.Fprintf(os.Stderr, "saved new file %s\n", file)
+		fmt.Fprintf(os.Stderr, "saved new file '%s'\n", file)
 
 		return nil
 	},
