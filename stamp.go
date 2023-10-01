@@ -5,11 +5,9 @@ import (
 	"encoding/hex"
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/nbd-wtf/opentimestamps"
 	"github.com/urfave/cli/v2"
-	"golang.org/x/exp/slices"
 )
 
 var stamp = &cli.Command{
@@ -51,10 +49,8 @@ var stamp = &cli.Command{
 			return fmt.Errorf("must either pass a file or a hash digest directly with --hash/-d")
 		}
 
-		if dir, err := os.ReadDir(filepath.Dir(filename)); err == nil {
-			if slices.ContainsFunc(dir, func(entry os.DirEntry) bool { return entry.Name() == filename+".ots" }) {
-				return fmt.Errorf("file '%s.ots' already exists", filename)
-			}
+		if _, err := os.Stat(filename + ".ots"); err == nil {
+			return fmt.Errorf("file '%s.ots' already exists", filename)
 		}
 
 		ts := opentimestamps.File{
