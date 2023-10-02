@@ -6,7 +6,7 @@ toolchain go1.21.0
 
 require (
 	github.com/btcsuite/btcd v0.23.4
-	github.com/nbd-wtf/opentimestamps v0.2.1
+	github.com/nbd-wtf/opentimestamps v0.2.2
 	github.com/rs/zerolog v1.30.0
 	github.com/urfave/cli/v2 v2.25.7
 )

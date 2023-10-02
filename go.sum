@@ -56,8 +56,8 @@ github.com/mattn/go-colorable v0.1.12 h1:jF+Du6AlPIjs2BiUiQlKOX0rt3SujHxPnksPKZb
 github.com/mattn/go-colorable v0.1.12/go.mod h1:u5H1YNBxpqRaxsYJYSkiCWKzEfiAb1Gb520KVy5xxl4=
 github.com/mattn/go-isatty v0.0.14 h1:yVuAays6BHfxijgZPzw+3Zlu5yQgKGP2/hcQbHb7S9Y=
 github.com/mattn/go-isatty v0.0.14/go.mod h1:7GGIvUiUoEMVVmxf/4nioHXj79iQHKdU27kJ6hsGG94=
-github.com/nbd-wtf/opentimestamps v0.2.1 h1:mfYsM5ubBCALRnq6p93/oDfBAYWWiExLRNASqbukAvQ=
-github.com/nbd-wtf/opentimestamps v0.2.1/go.mod h1:Y6l+oXkFpdZnXRI7OYMElmUag9BxR/y70/xBQBBPd4Y=
+github.com/nbd-wtf/opentimestamps v0.2.2 h1:/nchXGOq2VjU8qLIr0u52+wS+yRa6lUiUGXKMOzRIEU=
+github.com/nbd-wtf/opentimestamps v0.2.2/go.mod h1:Y6l+oXkFpdZnXRI7OYMElmUag9BxR/y70/xBQBBPd4Y=
 github.com/nxadm/tail v1.4.4/go.mod h1:kenIhsEOeOJmVchQTgglprH7qJGnHDVpk1VPCcaMI8A=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
