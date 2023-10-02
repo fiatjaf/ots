@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"os"
 
@@ -28,15 +27,11 @@ var upgrade = &cli.Command{
 
 		upgraded := false
 		for _, seq := range ts.GetPendingSequences() {
-			tail, err := seq.Upgrade(context.Background(), ts.Digest)
+			newSeq, err := opentimestamps.UpgradeSequence(c.Context, seq, ts.Digest)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "- upgrade failed: %s\n", err)
 				continue
 			}
-
-			newSeq := make(opentimestamps.Sequence, len(seq)+len(tail)-1)
-			copy(newSeq, seq[0:len(seq)-1])
-			copy(newSeq[len(seq)-1:], tail)
 
 			ts.Sequences = append(ts.Sequences, newSeq)
 			fmt.Fprintf(os.Stderr, "- upgraded sequence on %s to bitcoin block %d\n",
@@ -45,7 +40,12 @@ var upgrade = &cli.Command{
 		}
 
 		if !upgraded {
-			return fmt.Errorf("unable to upgrade '%s'", file)
+			if len(ts.GetPendingSequences()) == 0 && len(ts.GetBitcoinAttestedSequences()) > 0 {
+				fmt.Fprintf(os.Stderr, "'%s' is already upgraded", file)
+				return nil
+			} else {
+				return fmt.Errorf("unable to upgrade '%s'", file)
+			}
 		}
 
 		if err := os.Rename(file, file+".bak"); err != nil {
