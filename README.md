@@ -119,6 +119,21 @@ instruction sequences:
   bitcoin(808912)
 ```
 
+You can also filter for just the parts of the output you want with the flags `--onlypending`, `--onlyfinal` and `oldest`:
+
+```
+>>> ots info --onlypending file.ots
+file digest: 039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81
+hashed with: sha256
+instruction sequences:
+~>
+  append 6b4276f865eeb47c2be7448494b3c3f3
+  sha256
+  prepend 650dfc0b
+  append 4f448f94f2e708a9
+  pending(https://bob.btc.calendar.opentimestamps.org)
+```
+
 ### Verifying a timestamp
 
 ```
@@ -126,6 +141,14 @@ instruction sequences:
 > using a an esplora server at https://blockstream.info/api
 - sequence ending on block 808912 is valid
 timestamp validated at block [808912]
+```
+
+### Reading from stdin
+
+If you have the contents of an `.ots` file in hex or base64 format you can also pipe them to `ots info` or `ots verify`.
+
+```
+>>> nak req -i 3e8aee6f10fc693f8f5fafa9bedb45397147d3b9875f58462f890a3b43fb9c35 wss://public.relaying.io | jq -r .content | ots verify
 ```
 
 ## License
