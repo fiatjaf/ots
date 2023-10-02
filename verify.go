@@ -44,8 +44,7 @@ var verify = &cli.Command{
 	},
 	ArgsUsage: "[file]",
 	Action: func(c *cli.Context) error {
-		file := c.Args().First()
-		b, err := os.ReadFile(file)
+		b, err := readFromStdinOrFile(c)
 		if err != nil {
 			return err
 		}

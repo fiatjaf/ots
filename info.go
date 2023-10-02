@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/nbd-wtf/opentimestamps"
 	"github.com/urfave/cli/v2"
@@ -30,8 +29,7 @@ var info = &cli.Command{
 	},
 	ArgsUsage: "[file]",
 	Action: func(c *cli.Context) error {
-		file := c.Args().First()
-		b, err := os.ReadFile(file)
+		b, err := readFromStdinOrFile(c)
 		if err != nil {
 			return err
 		}
