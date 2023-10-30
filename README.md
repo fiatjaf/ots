@@ -152,7 +152,10 @@ timestamp validated at block [808912]
 If you have the contents of an `.ots` file in hex or base64 format you can also pipe them to `ots info` or `ots verify`.
 
 ```
->>> nak req -i 3e8aee6f10fc693f8f5fafa9bedb45397147d3b9875f58462f890a3b43fb9c35 wss://public.relaying.io | jq -r .content | ots verify
+>>> nak req -i e71c6ea722987debdb60f81f9ea4f604b5ac0664120dd64fb9d23abc4ec7c323 wss://relay.nostr.band | jq -r .content | ots verify
+> using a an esplora server at https://blockstream.info/api
+- sequence ending on block 810391 is valid
+timestamp validated at block [810391]
 ```
 
 ## License
