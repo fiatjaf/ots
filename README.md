@@ -3,9 +3,13 @@ ots
 
 A very simple _OpenTimestamps_ command line interface.
 
+## Installation
+
 ```
 go get github.com/fiatjaf/ots
 ```
+
+or download a precompiled binary from [the releases page](https://github.com/fiatjaf/ots/releases).
 
 ## Usage
 
