@@ -71,7 +71,7 @@ var stamp = &cli.Command{
 
 			seq, err := opentimestamps.Stamp(c.Context, calendarUrl, digest)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "- failed to stamp %x at calendar %s: %s", digest, calendarUrl, err)
+				fmt.Fprintf(os.Stderr, "- failed to stamp %x at calendar %s: %s\n", digest, calendarUrl, err)
 				continue
 			}
 			ts.Sequences = append(ts.Sequences, seq)
