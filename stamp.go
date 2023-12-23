@@ -21,7 +21,7 @@ var stamp = &cli.Command{
 			DefaultText: "https://alice.btc.calendar.opentimestamps.org/",
 			Value:       cli.NewStringSlice("https://alice.btc.calendar.opentimestamps.org/"),
 		},
-		&cli.StringSliceFlag{
+		&cli.StringFlag{
 			Name:    "hash",
 			Aliases: []string{"d"},
 			Usage:   "32-byte sha256 hash as hex instead of hashing a file (optional)",
@@ -31,7 +31,10 @@ var stamp = &cli.Command{
 	Action: func(c *cli.Context) error {
 		var digest [32]byte
 		var filename string
-		if hash := c.String("hash"); len(hash) == 64 {
+		if hash := c.String("hash"); hash != "" {
+			if len(hash) != 64 {
+				return fmt.Errorf("hex string passed to --hash/-d must have 64 characters (32 bytes), got '%s' (%d)", hash, len(hash))
+			}
 			bhash, err := hex.DecodeString(hash)
 			if err != nil {
 				return fmt.Errorf("invalid 64-char hex string '%s' passed to --hash/-d: %w", hash, err)
