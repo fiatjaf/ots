@@ -8,6 +8,7 @@ import (
 
 	"github.com/nbd-wtf/opentimestamps"
 	"github.com/urfave/cli/v2"
+	"golang.org/x/exp/slices"
 )
 
 var stamp = &cli.Command{
@@ -60,7 +61,14 @@ var stamp = &cli.Command{
 			Digest:    digest[:],
 			Sequences: make([]opentimestamps.Sequence, 0, 5),
 		}
-		for _, calendarUrl := range c.StringSlice("calendar") {
+
+		calendarUrls := c.StringSlice("calendar")
+		for i, calendarUrl := range calendarUrls {
+			if slices.Index(calendarUrls, calendarUrl) != i {
+				// duplicate
+				continue
+			}
+
 			seq, err := opentimestamps.Stamp(c.Context, calendarUrl, digest)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "- failed to stamp %x at calendar %s: %s", digest, calendarUrl, err)
