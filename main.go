@@ -19,6 +19,7 @@ func main() {
 			upgrade,
 			info,
 			verify,
+			clean,
 		},
 	}
 
