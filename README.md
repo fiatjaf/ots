@@ -142,7 +142,7 @@ instruction sequences:
 
 ```
 >>> ots verify file.ots
-> using a an esplora server at https://blockstream.info/api
+> using an esplora server at https://blockstream.info/api
 - sequence ending on block 808912 is valid
 timestamp validated at block [808912]
 ```
@@ -153,7 +153,7 @@ If you have the contents of an `.ots` file in hex or base64 format you can also 
 
 ```
 >>> nak req -i e71c6ea722987debdb60f81f9ea4f604b5ac0664120dd64fb9d23abc4ec7c323 wss://relay.nostr.band | jq -r .content | ots verify
-> using a an esplora server at https://blockstream.info/api
+> using an esplora server at https://blockstream.info/api
 - sequence ending on block 810391 is valid
 timestamp validated at block [810391]
 ```

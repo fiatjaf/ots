@@ -68,7 +68,7 @@ var verify = &cli.Command{
 				return fmt.Errorf("error trying to make a bitcoind connection: %w", err)
 			}
 		} else if esplora := c.String("esplora"); esplora != "" {
-			fmt.Fprintf(os.Stderr, "> using a an esplora server at %s\n", esplora)
+			fmt.Fprintf(os.Stderr, "> using an esplora server at %s\n", esplora)
 			bitcoin = opentimestamps.NewEsploraClient(esplora)
 		} else {
 			return fmt.Errorf("need a way to inspect the bitcoin blockchain")
