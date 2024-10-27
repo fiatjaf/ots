@@ -13,7 +13,7 @@ var info = &cli.Command{
 	Description: `reads an .ots file and displays its contents in a readable way.`,
 	Flags: []cli.Flag{
 		&cli.BoolFlag{
-			Name:    "onlyfinal",
+			Name:    "only-final",
 			Aliases: []string{"f"},
 			Usage:   "filter out all pending sequences, leaving only Bitcoin-attested sequences",
 		},
@@ -23,7 +23,7 @@ var info = &cli.Command{
 			Usage:   "leave only the oldest Bitcoin block attestation",
 		},
 		&cli.BoolFlag{
-			Name:    "onlypending",
+			Name:    "only-pending",
 			Aliases: []string{"p"},
 			Usage:   "filter out all Bitcoin-attested sequences, leaving only pending sequences",
 		},
