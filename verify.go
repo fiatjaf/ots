@@ -80,10 +80,10 @@ var verify = &cli.Command{
 			anySequences++
 			block := seq[len(seq)-1].Attestation.BitcoinBlockHeight
 
-			if err := seq.Verify(bitcoin, ts.Digest); err != nil {
+			if tx, err := seq.Verify(bitcoin, ts.Digest); err != nil {
 				fmt.Fprintf(os.Stderr, "- sequence ending on block %d is invalid: %s\n", block, err)
 			} else {
-				fmt.Fprintf(os.Stderr, "- sequence ending on block %d is valid\n", block)
+				fmt.Fprintf(os.Stderr, "- sequence ending on block %d is valid, tx: %s\n", block, tx.TxHash())
 				valid = append(valid, block)
 			}
 		}

@@ -26,6 +26,10 @@ var info = &cli.Command{
 			Aliases: []string{"p"},
 			Usage:   "filter out all Bitcoin-attested sequences, leaving only pending sequences",
 		},
+		&cli.BoolFlag{
+			Name:  "with-partials",
+			Usage: "print all partial computation steps",
+		},
 	},
 	ArgsUsage: "[file]",
 	Action: func(c *cli.Context) error {
@@ -57,7 +61,7 @@ var info = &cli.Command{
 			ts.Sequences = sequences
 		}
 
-		fmt.Println(ts.Human())
+		fmt.Println(ts.Human(c.Bool("with-partials")))
 		return nil
 	},
 }
