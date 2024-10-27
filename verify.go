@@ -1,12 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 
 	"github.com/btcsuite/btcd/rpcclient"
 	"github.com/nbd-wtf/opentimestamps"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 const bitcoinCategory = "options for using a local bitcoind node through RPC:"
@@ -43,7 +44,7 @@ var verify = &cli.Command{
 		},
 	},
 	ArgsUsage: "[file]",
-	Action: func(c *cli.Context) error {
+	Action: func(ctx context.Context, c *cli.Command) error {
 		b, err := readFromStdinOrFile(c)
 		if err != nil {
 			return err

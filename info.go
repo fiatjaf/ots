@@ -1,10 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/nbd-wtf/opentimestamps"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 var info = &cli.Command{
@@ -32,7 +33,7 @@ var info = &cli.Command{
 		},
 	},
 	ArgsUsage: "[file]",
-	Action: func(c *cli.Context) error {
+	Action: func(ctx context.Context, c *cli.Command) error {
 		b, err := readFromStdinOrFile(c)
 		if err != nil {
 			return err

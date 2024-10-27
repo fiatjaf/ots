@@ -1,17 +1,18 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 
 	"github.com/rs/zerolog"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 var log = zerolog.New(os.Stderr).Output(zerolog.ConsoleWriter{Out: os.Stderr})
 
 func main() {
-	app := &cli.App{
+	app := &cli.Command{
 		Name:  "ots",
 		Usage: "a simple opentimestamps cli tool",
 		Commands: []*cli.Command{
@@ -23,7 +24,7 @@ func main() {
 		},
 	}
 
-	if err := app.Run(os.Args); err != nil {
+	if err := app.Run(context.Background(), os.Args); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}

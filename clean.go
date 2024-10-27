@@ -1,17 +1,18 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 
 	"github.com/nbd-wtf/opentimestamps"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 var clean = &cli.Command{
 	Name:        "clean",
 	Description: `modifies a file to leave only the oldest Bitcoin attestation`,
-	Action: func(c *cli.Context) error {
+	Action: func(ctx context.Context, c *cli.Command) error {
 		file := c.Args().First()
 		b, err := os.ReadFile(file)
 		if err != nil {

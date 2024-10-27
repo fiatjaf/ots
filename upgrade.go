@@ -1,11 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 
 	"github.com/nbd-wtf/opentimestamps"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 var upgrade = &cli.Command{
@@ -13,7 +14,7 @@ var upgrade = &cli.Command{
 	Description: `reads an .ots file and tries to upgrade it against its specified pending calendars.`,
 	Flags:       []cli.Flag{},
 	ArgsUsage:   "[file]",
-	Action: func(c *cli.Context) error {
+	Action: func(ctx context.Context, c *cli.Command) error {
 		file := c.Args().First()
 		b, err := os.ReadFile(file)
 		if err != nil {
@@ -27,7 +28,7 @@ var upgrade = &cli.Command{
 
 		upgraded := false
 		for _, seq := range ts.GetPendingSequences() {
-			newSeq, err := opentimestamps.UpgradeSequence(c.Context, seq, ts.Digest)
+			newSeq, err := opentimestamps.UpgradeSequence(ctx, seq, ts.Digest)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "- upgrade failed: %s\n", err)
 				continue

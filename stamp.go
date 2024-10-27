@@ -1,13 +1,14 @@
 package main
 
 import (
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
 	"os"
 
 	"github.com/nbd-wtf/opentimestamps"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 	"golang.org/x/exp/slices"
 )
 
@@ -20,7 +21,7 @@ var stamp = &cli.Command{
 			Aliases:     []string{"c"},
 			Usage:       "calendar URL to use",
 			DefaultText: "https://alice.btc.calendar.opentimestamps.org/",
-			Value:       cli.NewStringSlice("https://alice.btc.calendar.opentimestamps.org/"),
+			Value:       []string{"https://alice.btc.calendar.opentimestamps.org/"},
 		},
 		&cli.StringFlag{
 			Name:    "hash",
@@ -29,7 +30,7 @@ var stamp = &cli.Command{
 		},
 	},
 	ArgsUsage: "[file]",
-	Action: func(c *cli.Context) error {
+	Action: func(ctx context.Context, c *cli.Command) error {
 		var digest [32]byte
 		var filename string
 		if hash := c.String("hash"); hash != "" {
@@ -69,7 +70,7 @@ var stamp = &cli.Command{
 				continue
 			}
 
-			seq, err := opentimestamps.Stamp(c.Context, calendarUrl, digest)
+			seq, err := opentimestamps.Stamp(ctx, calendarUrl, digest)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "- failed to stamp %x at calendar %s: %s\n", digest, calendarUrl, err)
 				continue

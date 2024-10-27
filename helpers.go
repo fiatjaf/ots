@@ -8,7 +8,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 func getStdin() string {
@@ -34,7 +34,7 @@ func getStdinBytes() []byte {
 	return []byte(stdin)
 }
 
-func readFromStdinOrFile(c *cli.Context) ([]byte, error) {
+func readFromStdinOrFile(c *cli.Command) ([]byte, error) {
 	b := getStdinBytes()
 	if len(b) > 0 {
 		return b, nil
